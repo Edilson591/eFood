@@ -32,6 +32,25 @@ export const ContentModalCart = styled.div`
   z-index: 999;
   transition: transform 0.3s ease-in-out;
   overflow-y: auto;
+
+  .spinner {
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 2px solid ${(props) => props.theme.colors.colorFontPrimary};
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 `;
 
 export const ButtonCloseModal = styled.button`
@@ -99,5 +118,7 @@ export const ContainerInputs = styled.div`
   flex-direction: column;
   gap: 0.8rem;
 `;
+
+export const Spinner = styled.div;
 
 // export const ContentModal = styled.

@@ -29,7 +29,7 @@ const ModalProducts = ({
 }: ProsModal) => {
   const { carrinho, limparCarrinho, addCarrinho } = useListSubItens();
   const [currentStepPage, setCurrentStepPage] = useState<number>(1);
-  // const [stepFields, setStepFields] = useState<string[]>(stepPages[1]);
+  const [isLoading, setIsLoading] = useState(false)
   const methods = useFormConfig();
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -48,7 +48,14 @@ const ModalProducts = ({
 
   const handleNextStepPage = () => {
     if (currentStepPage === 3) {
+      setIsLoading(true)
       setTimeout(() => {
+        if (currentStepPage > 2 && !methods.formState.isValid) {
+          setIsLoading(false)
+          alert("Preencha todos os campos corretamente")
+          return
+        };
+        setIsLoading(false)
         if (carrinho.length !== 0) setCurrentStepPage((prev) => prev + 1);
       }, 500);
     } else {
@@ -96,7 +103,7 @@ const ModalProducts = ({
                       type={currentStepPage === 3 ? "submit" : "button"}
                     >
                       {currentStepPage > 2
-                        ? "Finalizar pagamento"
+                        ? isLoading ? <span className="spinner"></span> : "Finalizar pagamento"
                         : "Continuar com o pagamento"}
                     </S.ButtonOrder>
                     <S.ButtonOrder onClick={handleprevStepPage} type="button">
