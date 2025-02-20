@@ -3,8 +3,19 @@ import CardProducts from "../CardProducts";
 import * as S from "./styles";
 import { productsRest } from "../data/productList";
 import SectionProducts from "../Sections/SectionProducts";
+import { useEffect } from "react";
+import { getFood } from "../../services/api";
 
 const ProductList = () => {
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getFood()
+      console.log(data)
+    }
+
+    fetchData()
+  },[])
   return (
     <SectionProducts>
       <Container>

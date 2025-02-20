@@ -9,6 +9,7 @@ import { FieldValues, FormProvider, SubmitHandler } from "react-hook-form";
 import { ContainerForm } from "./PageStepEntrega/styles";
 import { useFormConfig } from "../hooks/useFormConfig";
 import PageStepCheckOut from "./PageStepCheckOut";
+import { AnimatePresence, motion } from "framer-motion";
 // import { stepPages } from "../data/stepPages";
 import PagePedidoRealizado from "./PagePedidoRealizado";
 
@@ -29,7 +30,7 @@ const ModalProducts = ({
 }: ProsModal) => {
   const { carrinho, limparCarrinho, addCarrinho } = useListSubItens();
   const [currentStepPage, setCurrentStepPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const methods = useFormConfig();
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -48,14 +49,14 @@ const ModalProducts = ({
 
   const handleNextStepPage = () => {
     if (currentStepPage === 3) {
-      setIsLoading(true)
+      setIsLoading(true);
       setTimeout(() => {
         if (currentStepPage > 2 && !methods.formState.isValid) {
-          setIsLoading(false)
-          alert("Preencha todos os campos corretamente")
-          return
-        };
-        setIsLoading(false)
+          setIsLoading(false);
+          alert("Preencha todos os campos corretamente");
+          return;
+        }
+        setIsLoading(false);
         if (carrinho.length !== 0) setCurrentStepPage((prev) => prev + 1);
       }, 500);
     } else {
@@ -87,50 +88,70 @@ const ModalProducts = ({
         </S.ContentModalProducts>
       ) : type === "cart" ? (
         <S.ContentModalCart>
-          {currentStepPage === 1 && (
-            <PageStepCard onClick={handleNextStepPage} />
-          )}
-          {currentStepPage > 1 && currentStepPage < 4 && (
-            <FormProvider {...methods}>
-              <ContainerForm onSubmit={methods.handleSubmit(onSubmit)}>
-                {currentStepPage === 2 && <PageStepEntrega />}
-                {currentStepPage === 3 && <PageStepCheckOut />}
-                {currentStepPage < 4 ? (
-                  <S.ContainerButton>
-                    <S.ButtonOrder
-                      onClick={handleNextStepPage}
-                      // disabled={!methods.formState.isValid}
-                      type={currentStepPage === 3 ? "submit" : "button"}
-                    >
-                      {currentStepPage > 2
-                        ? isLoading ? <span className="spinner"></span> : "Finalizar pagamento"
-                        : "Continuar com o pagamento"}
-                    </S.ButtonOrder>
-                    <S.ButtonOrder onClick={handleprevStepPage} type="button">
-                      {currentStepPage > 2
-                        ? "Voltar para a edição de endereço"
-                        : "Voltar para o carrinho"}
-                    </S.ButtonOrder>
-                  </S.ContainerButton>
-                ) : (
-                  <>
-                    {currentStepPage === 4 && <PagePedidoRealizado />}
-                    <S.ButtonOrder onClick={handleprevStepPage} type="button">
-                      Concluir
-                    </S.ButtonOrder>
-                  </>
-                )}
-              </ContainerForm>
-            </FormProvider>
-          )}
-          {currentStepPage === 4 && (
-            <>
-              <PagePedidoRealizado />
-              <S.ButtonOrder onClick={handleConcluir} type="button">
-                Concluir
-              </S.ButtonOrder>
-            </>
-          )}
+          <AnimatePresence>
+            <motion.div
+              key={currentStepPage}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              {currentStepPage === 1 && (
+                <PageStepCard onClick={handleNextStepPage} />
+              )}
+              {currentStepPage > 1 && currentStepPage < 4 && (
+                <FormProvider {...methods}>
+                  <ContainerForm onSubmit={methods.handleSubmit(onSubmit)}>
+                    {currentStepPage === 2 && <PageStepEntrega />}
+                    {currentStepPage === 3 && <PageStepCheckOut />}
+                    {currentStepPage < 4 ? (
+                      <S.ContainerButton>
+                        <S.ButtonOrder
+                          onClick={handleNextStepPage}
+                          type={currentStepPage === 3 ? "submit" : "button"}
+                        >
+                          {currentStepPage > 2 ? (
+                            isLoading ? (
+                              <span className="spinner"></span>
+                            ) : (
+                              "Finalizar pagamento"
+                            )
+                          ) : (
+                            "Continuar com o pagamento"
+                          )}
+                        </S.ButtonOrder>
+                        <S.ButtonOrder
+                          onClick={handleprevStepPage}
+                          type="button"
+                        >
+                          {currentStepPage > 2
+                            ? "Voltar para a edição de endereço"
+                            : "Voltar para o carrinho"}
+                        </S.ButtonOrder>
+                      </S.ContainerButton>
+                    ) : (
+                      <>
+                        {currentStepPage === 4 && <PagePedidoRealizado />}
+                        <S.ButtonOrder
+                          onClick={handleprevStepPage}
+                          type="button"
+                        >
+                          Concluir
+                        </S.ButtonOrder>
+                      </>
+                    )}
+                  </ContainerForm>
+                </FormProvider>
+              )}
+              {currentStepPage === 4 && (
+                <>
+                  <PagePedidoRealizado />
+                  <S.ButtonOrder onClick={handleConcluir} type="button">
+                    Concluir
+                  </S.ButtonOrder>
+                </>
+              )}
+            </motion.div>
+          </AnimatePresence>
         </S.ContentModalCart>
       ) : null}
     </S.ModalOverlay>

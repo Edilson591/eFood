@@ -7,6 +7,9 @@ export const ContainerHeader = styled.header`
   margin: 0 auto;
   align-items: center;
   justify-content: center;
+
+  
+  
 `;
 
 export const InformationHeader = styled.p`

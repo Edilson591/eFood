@@ -11,6 +11,11 @@ export const ContainerHeaderProduct = styled.div`
   color: ${(props) => props.theme.colors.colorFontPrimary};
   margin-bottom: 6.4rem;
 
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+  }
+
   span {
     white-space: nowrap;
   }
@@ -25,6 +30,9 @@ export const LogoWrapper = styled.div`
 
   img {
     margin-left: 4rem;
+    @media (max-width: 768px) {
+      margin-left: 0;
+    }
   }
 `;
 
@@ -56,6 +64,10 @@ export const Image = styled.img`
 export const ContainerTitle = styled.div`
   font-size: 3.2rem;
   color: ${({ theme }) => theme.colors.backgroundThird};
+  @media (max-width: 768px) {
+      font-size: 2.4rem;
+    
+    }
 `;
 
 export const ContainerTypesFood = styled.div`
@@ -80,6 +92,7 @@ export const ListsFood = styled.ul`
   width: 100%;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 3.2rem;
+  justify-items: center;
 `;
 
 export const ButtonModalLeft = styled.button`

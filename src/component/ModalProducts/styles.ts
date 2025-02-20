@@ -2,11 +2,16 @@ import styled from "styled-components";
 import { buttonCardFood } from "../CardFood/syles";
 
 export const ModalOverlay = styled.div<{ $isVisible: boolean }>`
-  display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
+  display: flex;
+  visibility: ${({ $isVisible }) => ($isVisible ? "visible" : "hidden")};;
+  /* transform: translate(-50%, -50%) scale(${props => (props.$isVisible ? 1 : 0.8)}); */
+  /* transform:  ${({ $isVisible }) => ($isVisible ? "translate(-50%, -50%) scale(1)" : "translate(-50%, -50%) scale(0.8)")}; */
+  opacity:${({ $isVisible }) => ($isVisible ? "1" : "0")};;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
+  transition: all.5s ease;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
   justify-content: center;

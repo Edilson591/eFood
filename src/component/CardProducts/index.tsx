@@ -20,9 +20,6 @@ const CardProducts = ({
   assessment,
   tags,
 }: PropsCardProducts) => {
-
-  // const { setId } = useListSubItens();
-  
   return (
     <S.ContainerCard>
       <S.Image
