@@ -6,7 +6,7 @@ import { FormData } from "../../hooks/useFormConfig";
 
 const PageStepCheckOut = () => {
   const { carrinho } = useListSubItens();
-  const priceTotal = carrinho.reduce((acc, item) => acc + item.price, 0);
+  const priceTotal = carrinho.reduce((acc, item) => acc + item.preco, 0);
   const {
     register,
     formState: { errors },
