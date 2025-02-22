@@ -1,6 +1,6 @@
 import * as S from "./styles";
 import svgEstrela from "../../assets/estrela.svg";
-// import { useListSubItens } from "../store/ListSubItens";
+
 
 interface PropsCardProducts {
   id: number;

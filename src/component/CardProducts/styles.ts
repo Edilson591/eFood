@@ -40,7 +40,10 @@ export const ContentText = styled.div`
   padding: 0.8rem;
   border: 1px solid ${({ theme }) => theme.colors.colorFontPrimary};
   border-top: none;
-  max-height: 200px;
+  max-height: 20rem;
+  @media (max-width: 768px) {
+    max-height: 100%;
+  }
 `;
 
 export const ContainerTitle = styled.div`
@@ -75,19 +78,19 @@ export const TitleProducts = styled.h3`
   color: ${({ theme }) => theme.colors.colorFontPrimary};
 `;
 
-export const ButtonLinkCard =styled(Link)`
- font-size: 1.4rem;
- display: inline-block;
+export const ButtonLinkCard = styled(Link)`
+  font-size: 1.4rem;
+  display: inline-block;
   color: ${({ theme }) => theme.colors.backgroundSecundary};
   padding: 0.6rem 0.4rem;
   line-height: 10px;
   background-color: ${({ theme }) => theme.colors.colorFontPrimary};
   cursor: pointer;
-  transition: all .5s ease-in-out;
-  
+  transition: all 0.5s ease-in-out;
+
   &:hover {
     color: ${({ theme }) => theme.colors.colorFontPrimary};
     background-color: ${({ theme }) => theme.colors.backgroundSecundary};
-    transition: all .5s ease-in-out;
+    transition: all 0.5s ease-in-out;
   }
-`
+`;

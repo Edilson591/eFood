@@ -14,6 +14,7 @@ import {
   useListSubItens,
 } from "../../../component/store/ListSubItens";
 import { useListRestaurantes } from "../../../component/store/ListRestarurante";
+import ComponentSnipper from "../../../component/ComponentSnipper";
 
 interface PropsProductContent extends Record<string, string | undefined> {
   products: string;
@@ -56,6 +57,8 @@ const ProductContent = () => {
     setIsModalOpen(true);
     setModalType("cart");
   };
+
+  if (restaurantes.length === 0) return <ComponentSnipper />;
 
   return (
     <>

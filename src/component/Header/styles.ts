@@ -20,4 +20,7 @@ export const InformationHeader = styled.p`
   text-align: center;
   font-weight: 900;
   color: ${(props) => props.theme.colors.colorFontPrimary};
+  @media (max-width: 768px) {
+    font-size: 2.4rem;
+  }
 `;

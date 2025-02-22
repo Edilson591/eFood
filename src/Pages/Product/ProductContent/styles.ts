@@ -66,7 +66,7 @@ export const ContainerTitle = styled.div`
   font-size: 3.2rem;
   color: ${({ theme }) => theme.colors.backgroundThird};
   @media (max-width: 768px) {
-      font-size: 2.4rem;
+      font-size: 2rem;
     
     }
 `;
