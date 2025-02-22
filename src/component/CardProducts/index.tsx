@@ -3,33 +3,31 @@ import svgEstrela from "../../assets/estrela.svg";
 // import { useListSubItens } from "../store/ListSubItens";
 
 interface PropsCardProducts {
-  id: number
+  id: number;
   title: string;
   productImg: string;
   description: string;
+  destacado?: boolean;
   assessment: number;
   links: string;
-  tags: string[];
+  tags: string;
 }
 
 const CardProducts = ({
   title,
   description,
   productImg,
+  destacado,
   links,
   assessment,
   tags,
 }: PropsCardProducts) => {
   return (
     <S.ContainerCard>
-      <S.Image
-        src={productImg}
-        alt={title}
-      />
+      <S.Image src={productImg} alt={title} />
       <S.Tag>
-        {tags?.map((tag,index) => (
-          <S.Tags key={index}>{tag}</S.Tags>
-        ))}
+        {destacado && <S.Tags>Destaque da semana</S.Tags>}
+        <S.Tags>{tags}</S.Tags>
       </S.Tag>
       <S.ContentText>
         <S.ContainerTitle>
@@ -41,9 +39,7 @@ const CardProducts = ({
             </span>
           </div>
         </S.ContainerTitle>
-        <S.Description>
-          {description}
-        </S.Description>
+        <S.Description>{description}</S.Description>
         <S.ButtonLinkCard to={links}>Saiba mais</S.ButtonLinkCard>
       </S.ContentText>
     </S.ContainerCard>

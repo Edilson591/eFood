@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { PropsCardFood } from ".";
 
-export const ContainerCardFood = styled.div<Pick<PropsCardFood, "$isCardModal">>`
+export const ContainerCardFood = styled.div<
+  Pick<PropsCardFood, "$isCardModal">
+>`
   display: flex;
   flex-direction: ${(props) => (props.$isCardModal ? "row" : "column")};
   align-items: flex-start;
@@ -16,8 +18,9 @@ export const ContainerCardFood = styled.div<Pick<PropsCardFood, "$isCardModal">>
 `;
 
 export const Image = styled.img<Pick<PropsCardFood, "$isCardModal">>`
-width: ${(props) => (props.$isCardModal ? "28rem" : "100%")}; 
-height: ${(props) => (props.$isCardModal ? "28rem" : "100%")};
+  width: ${(props) => (props.$isCardModal ? "28rem" : "100%")};
+  height: ${(props) => (props.$isCardModal ? "28rem" : "100%")};
+  max-height: ${(props) => (props.$isCardModal ? "auto" : "16rem")};;
   object-fit: cover;
   object-position: center;
 `;
@@ -29,9 +32,12 @@ export const Title = styled.h3`
 
 export const Descrition = styled.p<Pick<PropsCardFood, "$isCardModal">>`
   margin-bottom: ${(props) => (props.$isCardModal ? "3.2rem" : "0.8rem")};
+  min-height: ${(props) => (props.$isCardModal ? "auto" : "16rem")};
 `;
 
-export const buttonCardFood = styled.button<Pick<PropsCardFood, "$isCardModal">>`
+export const buttonCardFood = styled.button<
+  Pick<PropsCardFood, "$isCardModal">
+>`
   width: 100%;
   max-width: ${(props) => (props.$isCardModal ? "22rem" : "auto")};
   margin-top: ${(props) => (props.$isCardModal ? "1.6rem" : "auto")};
@@ -55,4 +61,3 @@ export const ContainerText = styled.div<Pick<PropsCardFood, "$isCardModal">>`
   display: ${(props) => (props.$isCardModal ? "flex" : "block")};
   flex-direction: column;
 `;
-

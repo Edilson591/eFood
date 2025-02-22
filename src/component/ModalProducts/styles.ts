@@ -4,8 +4,6 @@ import { buttonCardFood } from "../CardFood/syles";
 export const ModalOverlay = styled.div<{ $isVisible: boolean }>`
   display: flex;
   visibility: ${({ $isVisible }) => ($isVisible ? "visible" : "hidden")};;
-  /* transform: translate(-50%, -50%) scale(${props => (props.$isVisible ? 1 : 0.8)}); */
-  /* transform:  ${({ $isVisible }) => ($isVisible ? "translate(-50%, -50%) scale(1)" : "translate(-50%, -50%) scale(0.8)")}; */
   opacity:${({ $isVisible }) => ($isVisible ? "1" : "0")};;
   position: fixed;
   top: 0;
@@ -31,12 +29,12 @@ export const ContentModalCart = styled.div`
   right: 0;
   width: 360px;
   height: 100%;
+  overflow-x: hidden;
   padding: 0.8rem;
   background-color: ${(props) => props.theme.colors.colorFontPrimary};
   box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1);
   z-index: 999;
   transition: transform 0.3s ease-in-out;
-  overflow-y: auto;
 
   .spinner {
     width: 1.6rem;

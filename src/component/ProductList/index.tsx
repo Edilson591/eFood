@@ -1,38 +1,36 @@
 import { Container } from "../../styles/global";
 import CardProducts from "../CardProducts";
 import * as S from "./styles";
-import { productsRest } from "../data/productList";
+// import { productsRest } from "../data/productList";
 import SectionProducts from "../Sections/SectionProducts";
 import { useEffect } from "react";
-import { getFood } from "../../services/api";
+
+import { useListRestaurantes } from "../store/ListRestarurante";
 
 const ProductList = () => {
+  const {restaurantes, fetchRestaurantes } = useListRestaurantes();
 
   useEffect(() => {
-    async function fetchData() {
-      const data = await getFood()
-      console.log(data)
-    }
+    fetchRestaurantes()
+  }, [fetchRestaurantes]);
 
-    fetchData()
-  },[])
+  if (!restaurantes) <div>...Carregando</div>;
+
   return (
     <SectionProducts>
       <Container>
         <S.ListItens>
-          {productsRest?.map(
-            (
-              { title, assessment, description, links, productImg, tags,id },
-              index
-            ) => (
+          {restaurantes?.map(
+            ({ avaliacao, capa, descricao, id, tipo, titulo,destacado }, index) => (
               <CardProducts
                 key={index}
-                title={title}
-                description={description}
-                assessment={assessment}
-                links={links}
-                tags={tags} 
-                productImg={productImg}
+                title={titulo}
+                description={descricao}
+                assessment={avaliacao}
+                destacado={destacado}
+                links={titulo}
+                tags={tipo}
+                productImg={capa}
                 id={id}
               />
             )

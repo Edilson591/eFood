@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { productsRest } from "../../../component/data/productList";
+// import { productsRest } from "../../../component/data/productList";
 import Hero from "../../../component/Hero";
 import BackgroundHeader from "../../../assets/fundo.png";
 import logoEfood from "../../../assets/logo.png";
@@ -7,12 +7,13 @@ import * as S from "./styles";
 import { Container } from "../../../styles/global";
 import { SectionProduct } from "../../../component/Sections/SectionProducts/styles";
 import CardFood from "../../../component/CardFood";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalProducts from "../../../component/ModalProducts";
 import {
-  Product,
+  ProductFood,
   useListSubItens,
 } from "../../../component/store/ListSubItens";
+import { useListRestaurantes } from "../../../component/store/ListRestarurante";
 
 interface PropsProductContent extends Record<string, string | undefined> {
   products: string;
@@ -21,12 +22,13 @@ interface PropsProductContent extends Record<string, string | undefined> {
 const ProductContent = () => {
   const { products } = useParams<PropsProductContent>();
   const { carrinho } = useListSubItens();
-  const conteudoProduct = productsRest.filter(
-    (item) => item.links === products
+  const { restaurantes, fetchRestaurantes } = useListRestaurantes();
+  const conteudoProduct = restaurantes.filter(
+    (item) => item.titulo === products?.replace(/_/g, " ")
   );
-  const [modalProduct, setModalProduct] = useState<Product | null>(null);
+  const [modalProduct, setModalProduct] = useState<ProductFood | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState<"product" | "cart" | null>(null)
+  const [modalType, setModalType] = useState<"product" | "cart" | null>(null);
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -34,30 +36,35 @@ const ProductContent = () => {
     }
   };
 
-  const openProductModal = (item: Product) => {
+  useEffect(() => {
+    fetchRestaurantes();
+  }, [fetchRestaurantes]);
+
+  const openProductModal = (item: ProductFood) => {
     setModalProduct(item);
     setIsModalOpen(true);
-    setModalType("product")
+    setModalType("product");
+    console.log(products?.replace(/_/g, " "));
   };
   const closeModal = () => {
     setModalProduct(null);
-    setModalType(null)
+    setModalType(null);
     setIsModalOpen(false);
   };
-  
+
   const openCartModal = () => {
     setIsModalOpen(true);
-    setModalType("cart")
-  }
-
-
+    setModalType("cart");
+  };
 
   return (
     <>
       <Hero $background={BackgroundHeader}>
         <Container>
           <S.ContainerHeaderProduct>
-            <h2>Restaurantes</h2>
+            <S.LinkRestaurante to="/">
+              <h2>Restaurantes</h2>
+            </S.LinkRestaurante>
             <S.LogoWrapper>
               <img src={logoEfood} alt="Logo efood" />
             </S.LogoWrapper>
@@ -68,15 +75,16 @@ const ProductContent = () => {
         </Container>
         {conteudoProduct?.map((product, index) => (
           <S.WrapperImg key={index}>
-            <S.Image src={product.productImg} alt={product.title} />
+            <S.Image src={product.capa} alt={product.titulo} />
             <Container>
               <S.ContainerTitle>
                 <S.ContainerTypesFood>
-                  {product.tags.map((tag, index) => (
-                    <S.TypeFood key={index}>{tag}</S.TypeFood>
-                  ))}
+                  {product.destacado && (
+                    <S.TypeFood>Destaque da semana</S.TypeFood>
+                  )}
+                  <S.TypeFood>{product.tipo}</S.TypeFood>
                 </S.ContainerTypesFood>
-                <S.Title>{product.title}</S.Title>
+                <S.Title>{product.titulo}</S.Title>
               </S.ContainerTitle>
             </Container>
           </S.WrapperImg>
@@ -86,12 +94,14 @@ const ProductContent = () => {
         <Container>
           <S.ListsFood>
             {conteudoProduct.map((itensFood) =>
-              itensFood.items.map((item, index) => (
+              itensFood.cardapio.map((item, index) => (
                 <li key={index}>
                   <CardFood
-                    title={item.title}
-                    imageFood={item.imageFood}
-                    description={item.description}
+                    title={item.nome}
+                    descricao={item.descricao}
+                    imageFood={item.foto}
+                    porcao={item.porcao}
+                    price={item.preco}
                     onClick={() => openProductModal(item)}
                   />
                 </li>

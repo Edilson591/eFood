@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const ContainerCard = styled.div`
   background-color: ${({ theme }) => theme.colors.backgroundThird};
   position: relative;
-  max-width: 44rem;
+  max-width: 48rem;
   font-weight: 700;
   overflow: hidden;
   display: flex;
@@ -67,6 +67,7 @@ export const Description = styled.p`
   font-size: 1.4rem;
   line-height: 20px;
   margin: 1.6rem 0;
+  min-height: 10rem;
 `;
 
 export const TitleProducts = styled.h3`

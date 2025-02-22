@@ -13,6 +13,7 @@ export const ImageCardCarrinho = styled.img`
   width: 8rem;
   height: 8rem;
   margin-bottom: 0.4rem ;
+  object-fit: cover;
 `;
 
 export const ContainerCarrinhoText = styled.div`

@@ -10,7 +10,7 @@ interface PropsPageStepCard {
 const PageStepCard = ({onClick}:PropsPageStepCard) => {
   const { carrinho, removerCarrinho } = useListSubItens();
   const currentPrice = carrinho.reduce(
-    (acc, item) => acc + Number(item.price),
+    (acc, item) => acc + Number(item.preco),
     0
   );
   return (
@@ -19,9 +19,9 @@ const PageStepCard = ({onClick}:PropsPageStepCard) => {
         {carrinho.map((cart, index) => (
           <li key={index}>
             <CardCarrinho
-              title={cart.title}
-              price={cart.price}
-              imgCard={cart.imageFood}
+              title={cart.nome}
+              price={cart.preco}
+              imgCard={cart.foto}
               onClick={() => removerCarrinho(cart.id)}
             />
           </li>

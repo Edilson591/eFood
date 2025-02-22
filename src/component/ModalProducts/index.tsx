@@ -1,5 +1,5 @@
 import CardFood from "../CardFood";
-import { Product, useListSubItens } from "../store/ListSubItens";
+import { ProductFood, useListSubItens } from "../store/ListSubItens";
 import * as S from "./styles";
 import butonCloseModal from "../../assets/close 1.svg";
 import PageStepCard from "./PageStepCard";
@@ -14,7 +14,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import PagePedidoRealizado from "./PagePedidoRealizado";
 
 export interface ProsModal {
-  product: Product | null;
+  product: ProductFood | null;
   isOpen: boolean;
   onClose: () => void;
   closeOverlay: (e: React.MouseEvent) => void;
@@ -74,14 +74,14 @@ const ModalProducts = ({
       {type === "product" && product ? (
         <S.ContentModalProducts>
           <CardFood
-            imageFood={product.imageFood}
-            description={product.description}
-            title={product.title}
-            descriptionModal={product.descriptionModal}
-            price={product.price}
+            imageFood={product.foto}
+            title={product.nome}
+            descricao={product.descricao}
+            price={product.preco}
             onClick={() => addCarrinho(product)}
-            $isCardModal={true}
-          />
+            $isCardModal={true}      
+            porcao={product.porcao}
+             />
           <S.ButtonCloseModal onClick={onClose}>
             <img src={butonCloseModal} alt="botao fecha modal" />
           </S.ButtonCloseModal>

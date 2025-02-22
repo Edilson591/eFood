@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ButtonLinkCard } from "../../../component/CardProducts/styles";
 
 export const ContainerHeaderProduct = styled.div`
   padding-top: 4rem;
@@ -106,3 +107,9 @@ export const ButtonModalLeft = styled.button`
     color: ${(props) => props.theme.colors.colorFontPrimary};
   }
 `;
+
+export const LinkRestaurante = styled(ButtonLinkCard)`
+  background-color: transparent;
+  color:${({ theme }) => theme.colors.colorFontPrimary};
+
+`
