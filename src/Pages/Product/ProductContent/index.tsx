@@ -82,9 +82,6 @@ const ProductContent = () => {
             <Container>
               <S.ContainerTitle>
                 <S.ContainerTypesFood>
-                  {product.destacado && (
-                    <S.TypeFood>Destaque da semana</S.TypeFood>
-                  )}
                   <S.TypeFood>{product.tipo}</S.TypeFood>
                 </S.ContainerTypesFood>
                 <S.Title>{product.titulo}</S.Title>

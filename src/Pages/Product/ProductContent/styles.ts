@@ -63,7 +63,6 @@ export const Image = styled.img`
 `;
 
 export const ContainerTitle = styled.div`
-  font-size: 3.2rem;
   color: ${({ theme }) => theme.colors.backgroundThird};
   @media (max-width: 768px) {
       font-size: 2rem;
@@ -80,12 +79,14 @@ export const ContainerTypesFood = styled.div`
 
 export const TypeFood = styled.h3`
   font-weight: 100;
+  font-size: 3.2rem;
 `;
 
 export const Title = styled.h2`
   position: absolute;
   bottom: 32px;
   font-weight: 900;
+  font-size: 3.2rem;
 `;
 
 export const ListsFood = styled.ul`
