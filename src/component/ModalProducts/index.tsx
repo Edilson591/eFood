@@ -73,7 +73,6 @@ const ModalProducts = ({
     <S.ModalOverlay $isVisible={isOpen} onClick={closeOverlay}>
       {type === "product" && product ? (
         <S.ContentModalProducts>
-          {}
           <CardFood
             imageFood={product.foto}
             title={product.nome}
