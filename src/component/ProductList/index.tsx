@@ -5,23 +5,27 @@ import * as S from "./styles";
 import SectionProducts from "../Sections/SectionProducts";
 import { useEffect } from "react";
 
-import { useListRestaurantes } from "../store/ListRestarurante";
+// import { useListRestaurantes } from "../store/ListRestarurante";
 import ComponentSnipper from "../ComponentSnipper";
+import { useGetRestaurantesQuery } from "../../services/apiRestaurantes";
 
 const ProductList = () => {
-  const { restaurantes, fetchRestaurantes } = useListRestaurantes();
+  // const { restaurantes, fetchRestaurantes } = useListRestaurantes();
+  const {data,isLoading,isError} = useGetRestaurantesQuery()
 
   useEffect(() => {
-    fetchRestaurantes();
-  }, [fetchRestaurantes]);
+    console.log(data)
+    
+  }, [data]);
 
-  if (restaurantes.length === 0) return <ComponentSnipper />;
+  if (isLoading) return <ComponentSnipper />;
+  if(isError) return <h2>Ocorreu um erro ao carregar os restaurantes</h2>
 
   return (
     <SectionProducts>
       <Container>
         <S.ListItens>
-          {restaurantes?.map(
+          {data && data.length> 0  && data.map(
             (
               { avaliacao, capa, descricao, id, tipo, titulo, destacado },
               index

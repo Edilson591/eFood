@@ -1,5 +1,5 @@
 import CardFood from "../CardFood";
-import { ProductFood, useListSubItens } from "../store/ListSubItens";
+import { ProductFood } from "../store/ListSubItens";
 import * as S from "./styles";
 import butonCloseModal from "../../assets/close 1.svg";
 import PageStepCard from "./PageStepCard";
@@ -10,8 +10,10 @@ import { ContainerForm } from "./PageStepEntrega/styles";
 import { useFormConfig } from "../hooks/useFormConfig";
 import PageStepCheckOut from "./PageStepCheckOut";
 import { AnimatePresence, motion } from "framer-motion";
-// import { stepPages } from "../data/stepPages";
 import PagePedidoRealizado from "./PagePedidoRealizado";
+import { useDispatch, useSelector } from "react-redux";
+import { RootReducer } from "../store";
+import { addCarrinho, limparCarrinho } from "../store/reducers/carrinho";
 
 export interface ProsModal {
   product: ProductFood | null;
@@ -28,7 +30,9 @@ const ModalProducts = ({
   closeOverlay,
   type,
 }: ProsModal) => {
-  const { carrinho, limparCarrinho, addCarrinho } = useListSubItens();
+  // const { carrinho, limparCarrinho, addCarrinho } = useListSubItens();
+  const { carrinho } = useSelector((state: RootReducer) => state.carrinho);
+  const dispatch = useDispatch()
   const [currentStepPage, setCurrentStepPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState(false);
   const methods = useFormConfig();
@@ -36,14 +40,13 @@ const ModalProducts = ({
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
   };
-
   useEffect(() => {
-    console.log(currentStepPage);
-  }, [currentStepPage]);
+    console.log(carrinho)
+  },[carrinho])
 
   const handleConcluir = () => {
     setCurrentStepPage(1);
-    limparCarrinho();
+    dispatch(limparCarrinho())
     onClose();
   };
 
@@ -78,10 +81,10 @@ const ModalProducts = ({
             title={product.nome}
             descricao={product.descricao}
             price={product.preco}
-            onClick={() => addCarrinho(product)}
-            $isCardModal={true}      
+            onClick={() => dispatch(addCarrinho(product))}
+            $isCardModal={true}
             porcao={product.porcao}
-             />
+          />
           <S.ButtonCloseModal onClick={onClose}>
             <img src={butonCloseModal} alt="botao fecha modal" />
           </S.ButtonCloseModal>

@@ -7,14 +7,14 @@ import * as S from "./styles";
 import { Container } from "../../../styles/global";
 import { SectionProduct } from "../../../component/Sections/SectionProducts/styles";
 import CardFood from "../../../component/CardFood";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ModalProducts from "../../../component/ModalProducts";
-import {
-  ProductFood,
-  useListSubItens,
-} from "../../../component/store/ListSubItens";
-import { useListRestaurantes } from "../../../component/store/ListRestarurante";
+import { ProductFood } from "../../../component/store/ListSubItens";
+// import { useListRestaurantes } from "../../../component/store/ListRestarurante";
 import ComponentSnipper from "../../../component/ComponentSnipper";
+import { useGetRestaurantesQuery } from "../../../services/apiRestaurantes";
+import { useSelector } from "react-redux";
+import { RootReducer } from "../../../component/store";
 
 interface PropsProductContent extends Record<string, string | undefined> {
   products: string;
@@ -22,11 +22,13 @@ interface PropsProductContent extends Record<string, string | undefined> {
 
 const ProductContent = () => {
   const { products } = useParams<PropsProductContent>();
-  const { carrinho } = useListSubItens();
-  const { restaurantes, fetchRestaurantes } = useListRestaurantes();
-  const conteudoProduct = restaurantes.filter(
+  // const { carrinho } = useListSubItens();
+  // const { restaurantes, fetchRestaurantes } = useListRestaurantes();
+  const { data, isLoading } = useGetRestaurantesQuery();
+  const conteudoProduct = data?.filter(
     (item) => item.titulo === products?.replace(/_/g, " ")
   );
+  const { carrinho } = useSelector((state: RootReducer) => state.carrinho);
   const [modalProduct, setModalProduct] = useState<ProductFood | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<"product" | "cart" | null>(null);
@@ -37,9 +39,9 @@ const ProductContent = () => {
     }
   };
 
-  useEffect(() => {
-    fetchRestaurantes();
-  }, [fetchRestaurantes]);
+  // useEffect(() => {
+  //   fetchRestaurantes();
+  // }, [fetchRestaurantes]);
 
   const openProductModal = (item: ProductFood) => {
     setModalProduct(item);
@@ -58,7 +60,7 @@ const ProductContent = () => {
     setModalType("cart");
   };
 
-  if (restaurantes.length === 0) return <ComponentSnipper />;
+  if (isLoading) return <ComponentSnipper />;
 
   return (
     <>
@@ -93,7 +95,7 @@ const ProductContent = () => {
       <SectionProduct>
         <Container>
           <S.ListsFood>
-            {conteudoProduct.map((itensFood) =>
+            {conteudoProduct?.map((itensFood) =>
               itensFood.cardapio.map((item, index) => (
                 <li key={index}>
                   <CardFood

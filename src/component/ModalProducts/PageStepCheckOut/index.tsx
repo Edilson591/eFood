@@ -1,12 +1,15 @@
 import { useFormContext } from "react-hook-form";
 import ContainerInput from "../../Input";
-import { useListSubItens } from "../../store/ListSubItens";
+// import { useListSubItens } from "../../store/ListSubItens";
 import * as S from "./styles";
 import { FormData } from "../../hooks/useFormConfig";
+import { useSelector } from "react-redux";
+import { RootReducer } from "../../store";
 
 const PageStepCheckOut = () => {
-  const { carrinho } = useListSubItens();
-  const priceTotal = carrinho.reduce((acc, item) => acc + item.preco, 0);
+  // const { carrinho } = useListSubItens();
+  const { carrinho } = useSelector((state: RootReducer) => state.carrinho);
+  const priceTotal = carrinho.reduce((acc, item) => acc + item.preco, 0).toFixed(2);
   const {
     register,
     formState: { errors },
