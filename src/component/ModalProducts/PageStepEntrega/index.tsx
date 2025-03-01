@@ -10,7 +10,7 @@ const PageStepEntrega = () => {
     formState: { errors },
     control,
   } = useFormContext<FormData>();
-  
+
 
   return (
     <ContainerEntrega>

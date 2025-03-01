@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-// import { productsRest } from "../../../component/data/productList";
 import Hero from "../../../component/Hero";
 import BackgroundHeader from "../../../assets/fundo.png";
 import logoEfood from "../../../assets/logo.png";
@@ -10,7 +9,6 @@ import CardFood from "../../../component/CardFood";
 import { useState } from "react";
 import ModalProducts from "../../../component/ModalProducts";
 import { ProductFood } from "../../../component/store/ListSubItens";
-// import { useListRestaurantes } from "../../../component/store/ListRestarurante";
 import ComponentSnipper from "../../../component/ComponentSnipper";
 import { useGetRestaurantesQuery } from "../../../services/apiRestaurantes";
 import { useSelector } from "react-redux";
@@ -22,8 +20,6 @@ interface PropsProductContent extends Record<string, string | undefined> {
 
 const ProductContent = () => {
   const { products } = useParams<PropsProductContent>();
-  // const { carrinho } = useListSubItens();
-  // const { restaurantes, fetchRestaurantes } = useListRestaurantes();
   const { data, isLoading } = useGetRestaurantesQuery();
   const conteudoProduct = data?.filter(
     (item) => item.titulo === products?.replace(/_/g, " ")
@@ -39,15 +35,11 @@ const ProductContent = () => {
     }
   };
 
-  // useEffect(() => {
-  //   fetchRestaurantes();
-  // }, [fetchRestaurantes]);
 
   const openProductModal = (item: ProductFood) => {
     setModalProduct(item);
     setIsModalOpen(true);
     setModalType("product");
-    console.log(products?.replace(/_/g, " "));
   };
   const closeModal = () => {
     setModalProduct(null);

@@ -27,7 +27,6 @@ const carrinhoSlice = createSlice({
         idItem: state.carrinho.length + 1,
       };
       state.carrinho = [...state.carrinho, novoItem];
-      console.log(state.carrinho);
     },
     removerCarrinho: (state, action: PayloadAction<number>) => {
       state.carrinho = [

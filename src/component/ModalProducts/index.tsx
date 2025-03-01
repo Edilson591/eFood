@@ -3,7 +3,7 @@ import { ProductFood } from "../store/ListSubItens";
 import * as S from "./styles";
 import butonCloseModal from "../../assets/close 1.svg";
 import PageStepCard from "./PageStepCard";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PageStepEntrega from "./PageStepEntrega";
 import { FieldValues, FormProvider, SubmitHandler } from "react-hook-form";
 import { ContainerForm } from "./PageStepEntrega/styles";
@@ -14,6 +14,8 @@ import PagePedidoRealizado from "./PagePedidoRealizado";
 import { useDispatch, useSelector } from "react-redux";
 import { RootReducer } from "../store";
 import { addCarrinho, limparCarrinho } from "../store/reducers/carrinho";
+import { useCheckOutMutation } from "../../services/apiRestaurantes";
+import { useNavigate } from "react-router-dom";
 
 export interface ProsModal {
   product: ProductFood | null;
@@ -30,24 +32,45 @@ const ModalProducts = ({
   closeOverlay,
   type,
 }: ProsModal) => {
-  // const { carrinho, limparCarrinho, addCarrinho } = useListSubItens();
   const { carrinho } = useSelector((state: RootReducer) => state.carrinho);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [currentStepPage, setCurrentStepPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState(false);
   const methods = useFormConfig();
+  const [checkout, { isLoading: isLoadingCheckOut,}] =
+    useCheckOutMutation();
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
   };
-  useEffect(() => {
-    console.log(carrinho)
-  },[carrinho])
+
+  const handleFinish = async () => {
+    const response = await fetch(
+      "https://fake-api-tau.vercel.app/api/efood/checkout"
+    );
+    if (!response.ok) {
+      throw new Error("Error ao Busca dados");
+    }
+    const dataCheckOut = await response.json();
+
+    try {
+      if (dataCheckOut) {
+        await checkout(dataCheckOut).unwrap();
+        alert("Compra realizada com sucesso!");
+        navigate("/confirmacao", { state: dataCheckOut });
+      }
+    } catch (error) {
+      alert("Ocorreu um erro ao concluir a compra.");
+      console.log(error);
+    }
+  };
 
   const handleConcluir = () => {
     setCurrentStepPage(1);
-    dispatch(limparCarrinho())
+    dispatch(limparCarrinho());
     onClose();
+    handleFinish();
   };
 
   const handleNextStepPage = () => {
@@ -69,7 +92,6 @@ const ModalProducts = ({
 
   const handleprevStepPage = () => {
     setCurrentStepPage((prev) => (prev > 1 ? prev - 1 : 1));
-    console.log(methods.watch());
   };
 
   return (
@@ -137,6 +159,7 @@ const ModalProducts = ({
                         <S.ButtonOrder
                           onClick={handleprevStepPage}
                           type="button"
+                          disabled={isLoadingCheckOut}
                         >
                           Concluir
                         </S.ButtonOrder>

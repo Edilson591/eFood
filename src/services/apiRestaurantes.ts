@@ -10,10 +10,18 @@ const restaurantesApi = createApi({
   endpoints: (builder) => ({
     getRestaurantes: builder.query<Products[], void>({
         query: () => "restaurantes"
+    }),
+    checkOut: builder.mutation({
+      query: (carrinhoData) => ({
+        url:'checkout',
+        method:"POST",
+        body:carrinhoData
+      })
     })
-  })
+  }),
+
 });
 
-export const {useGetRestaurantesQuery} = restaurantesApi
+export const { useGetRestaurantesQuery, useCheckOutMutation } = restaurantesApi
 
 export default restaurantesApi
